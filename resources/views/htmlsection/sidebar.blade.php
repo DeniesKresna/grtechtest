@@ -57,13 +57,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('company.index') }}" class="nav-link">
+                <a href="{{ route('companies.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{__('menu.label_company')}}</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('employee.index') }}" class="nav-link">
+                <a href="{{ route('employees.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>{{__('menu.label_employee')}}</p>
                 </a>

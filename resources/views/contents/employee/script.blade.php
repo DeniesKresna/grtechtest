@@ -17,7 +17,7 @@
         $('#employeeTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('employee.index') }}",
+            ajax: "{{ route('employees.index') }}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' , orderable: false, searchable: false},
                 { data: "full_name" },
@@ -31,7 +31,7 @@
         $('form#employeeForm').submit(function(e){
             e.preventDefault();
             var formData = new FormData(this);
-            var url = "{{ url('/employee') }}";
+            var url = "{{ url('/employees') }}";
 
             if($("#employeeId").val()){
                 formData.append('_method', 'patch');  
@@ -47,16 +47,11 @@
                 processData: false,
                 success: function(result)
                 {
-                    alert("success");
-                    location.reload();
+                    requestSuccess();
                 },
                 error: function(data)
                 {
-                    console.log(data);
-                    if(data.status == 422)
-                        alert(data.responseJSON.message);
-                    if(data.status == 404)
-                        alert("url not found");
+                    showError(data);
                 }
             });
         });
@@ -73,7 +68,7 @@
     }
 
     function showEditModal(id){
-        var url = "{{ url('/employee') }}/";
+        var url = "{{ url('/employees') }}/";
         $.ajax({
             url: url + id,
             success: function(data)
@@ -87,29 +82,37 @@
             },
             error: function(data)
             {
-                alert(data.responseJSON.message);
+                showError(data);
             }
         });
         $('#employee-modal-lg').modal('show');
     }
 
     function deleteData(id){
-        if(confirm("delete this employee?")){
-            var url = "{{ url('/employee') }}/";
-            $.ajax({
-                url: url + id,
-                type: "DELETE",
-                success: function(data)
-                {
-                    alert("success");
-                    location.reload();
-                },
-                error: function(data)
-                {
-                    if(data.status == 404)
-                        alert("url not found");
-                }
-            });
-        }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                var url = "{{ url('/employees') }}/";
+                $.ajax({
+                    url: url + id,
+                    type: "DELETE",
+                    success: function(data)
+                    {
+                        requestSuccess();
+                    },
+                    error: function(data)
+                    {
+                        showError(data);
+                    }
+                });
+            }
+        });
     }
 </script>
