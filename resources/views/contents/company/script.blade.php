@@ -17,7 +17,7 @@
         $('#companyTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('company.index') }}",
+            ajax: "{{ route('companies.index') }}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' , orderable: false, searchable: false},
                 { data: "name" },
@@ -31,7 +31,7 @@
         $('form#companyForm').submit(function(e){
             e.preventDefault();
             var formData = new FormData(this);
-            var url = "{{ url('/company') }}";
+            var url = "{{ url('/companies') }}";
 
             if($("#companyId").val()){
                 formData.append('_method', 'patch');  
@@ -47,15 +47,11 @@
                 processData: false,
                 success: function(result)
                 {
-                    alert("success");
-                    location.reload();
+                    requestSuccess();
                 },
                 error: function(data)
                 {
-                    if(data.status == 422)
-                        alert(data.responseJSON.message);
-                    if(data.status == 404)
-                        alert("url not found");
+                    showError(data);
                 }
             });
         });
@@ -72,7 +68,7 @@
 
     function showEditModal(id){
         $("#logoPicture").html("");
-        var url = "{{ url('/company') }}/";
+        var url = "{{ url('/companies') }}/";
         $.ajax({
             url: url + id,
             success: function(data)
@@ -89,29 +85,37 @@
             },
             error: function(data)
             {
-                alert(data.responseJSON.message);
+                showError(data);
             }
         });
         $('#company-modal-lg').modal('show');
     }
 
     function deleteData(id){
-        if(confirm("delete this company?")){
-            var url = "{{ url('/company') }}/";
-            $.ajax({
-                url: url + id,
-                type: "DELETE",
-                success: function(data)
-                {
-                    alert("success");
-                    location.reload();
-                },
-                error: function(data)
-                {
-                    if(data.status == 404)
-                        alert("url not found");
-                }
-            });
-        }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                var url = "{{ url('/companies') }}/";
+                $.ajax({
+                    url: url + id,
+                    type: "DELETE",
+                    success: function(data)
+                    {
+                        requestSuccess();
+                    },
+                    error: function(data)
+                    {
+                        showError(data);
+                    }
+                });
+            }
+        });
     }
 </script>
