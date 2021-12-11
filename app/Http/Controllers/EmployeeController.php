@@ -23,7 +23,13 @@ class EmployeeController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->dataTable(Employee::all(),[],['full_name','company_name']);
+            $from = $request->input('from','');
+            $to = $request->input('to','');
+            $data = Employee::columnFilter();
+            if($from != '' && $to != ''){
+                $data = $data->dateCreationFilter($request->from, $request->to);
+            }
+            return $this->dataTable($data->get(),[],['full_name','company_name']);
         }
 
         $companies = Company::all();

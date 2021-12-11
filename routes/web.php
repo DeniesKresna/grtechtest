@@ -20,6 +20,8 @@ Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['admin'])->group(function () {
-    Route::resource('/companies', 'CompanyController');
     Route::resource('/employees', 'EmployeeController');
+    Route::resource('/companies', 'CompanyController');
 });
+
+Route::get('/quotes', 'QuoteController@index')->name('quotes.index');

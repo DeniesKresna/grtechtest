@@ -7,5 +7,5 @@ return [
     'label_page' => 'Page',
     'label_company' => 'Company',
     'label_employee' => 'Employee',
-    
+    'label_quotes' => 'Quotes'
 ];

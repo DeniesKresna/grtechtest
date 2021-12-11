@@ -68,6 +68,12 @@
                   <p>{{__('menu.label_employee')}}</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('quotes.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>{{__('menu.label_quotes')}}</p>
+                </a>
+              </li>
             </ul>
           </li>
         </ul>

@@ -24,4 +24,8 @@ return [
     'employee_label_company' => 'Company',
     'employee_label_phone' => 'Phone',
 
+    //Quote
+    'quote_label_title' => 'Quote List',
+    'quote_label_text' => 'Quote',
+    'quote_label_author' => 'Author',
 ];

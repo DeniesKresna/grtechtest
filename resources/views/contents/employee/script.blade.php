@@ -8,16 +8,31 @@
 <script src="{{asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
 <script src="{{asset('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
 <script src="{{asset('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
+<script src="{{asset('adminlte/plugins/moment/moment.min.js')}}"></script>
 <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{asset('adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{asset('adminlte/plugins/daterangepicker/daterangepicker.js')}}"></script>
 
 <script>
     $(document).ready(function() {
-        $('#employeeTable').DataTable({
+        $('#creationDateFilter').daterangepicker();
+        $('#creationDateFilter').val('');
+
+        var table = $('#employeeTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('employees.index') }}",
+            ajax: {
+                url: "{{ route('employees.index') }}",
+                data: function(d) {
+                    d.from = $('#creationDateFilter').val() != ''? $('#creationDateFilter').data('daterangepicker').startDate.format('YYYY-MM-DD'): '',
+                    d.to = $('#creationDateFilter').val() != ''? $('#creationDateFilter').data('daterangepicker').endDate.format('YYYY-MM-DD'): '',
+                    d.email = $('#emailFilter').val(),
+                    d.firstname = $('#firstnameFilter').val(),
+                    d.lastname = $('#lastnameFilter').val(),
+                    d.company_id = $('#companyIdFilter').val()
+                }    
+            },
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' , orderable: false, searchable: false},
                 { data: "full_name" },
@@ -54,6 +69,14 @@
                     showError(data);
                 }
             });
+        });
+
+        $(".keyup-filter").keyup(function(){
+            table.draw();
+        });
+
+        $(".change-filter").change(function(){
+            table.draw();
         });
     });
 
