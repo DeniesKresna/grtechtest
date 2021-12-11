@@ -29,7 +29,7 @@ class EmployeeController extends Controller
             if($from != '' && $to != ''){
                 $data = $data->dateCreationFilter($request->from, $request->to);
             }
-            return $this->dataTable($data->get(),[],['full_name','company_name']);
+            return $this->dataTable($data->get(),true,[],['full_name','company_name']);
         }
 
         $companies = Company::all();

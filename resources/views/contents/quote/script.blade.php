@@ -26,9 +26,15 @@
             },
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex' , orderable: false, searchable: false},
-                { data: "h" },
+                { data: "q", render: function(data, type){
+                    return '<blockquote>&ldquo;'+data+'&rdquo;</blockquote>';
+                }},
                 { data: "a" },
             ],
         });
+
+        $('#refreshQuotes').click( function () {
+            table.ajax.reload();
+        } );
     });
 </script>

@@ -21,7 +21,7 @@ class CompanyController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->dataTable(Company::all(),['columnName'=>'renderedLogo', 'photoField'=>'logo']);
+            return $this->dataTable(Company::all(),true,['columnName'=>'renderedLogo', 'photoField'=>'logo']);
         }
         
         return view('contents.company.index',['pageTitle'=>'Company','rootMenu'=>'Page','subMenu'=>'Company']);
