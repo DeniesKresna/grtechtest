@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Traits\Helper;
 use Curl;
 
 class QuoteController extends Controller
 {
+    use Helper;
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +17,7 @@ class QuoteController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            //return response()->json(json_decode($this->getQuotes()));
-            return $this->dataTable($this->getQuotes());
+            return $this->dataTable(collect(json_decode($this->getQuotes())));
         }
         
         return view('contents.quote.index',['pageTitle'=>'Quote','rootMenu'=>'Page','subMenu'=>'Quote']);

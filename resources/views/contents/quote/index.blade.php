@@ -11,7 +11,7 @@
                   <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
                       <li class="nav-item">
-                        <a class="nav-link active" href="#" data-toggle="tab" onClick="refreshQuotes()">Refresh Quotes</a>
+                        <a class="nav-link active" href="#" data-toggle="tab" id="refreshQuotes">Refresh Quotes</a>
                       </li>
                     </ul>
                   </div>

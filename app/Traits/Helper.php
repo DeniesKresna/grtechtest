@@ -9,22 +9,27 @@ trait Helper {
      * render common datatable.
      * 
      * @param \Illuminate\Database\Eloquent\Collection|static[] $data
+     * @param bool $withAction
      * @param array|mixed $pictureConfig
      * @param array|mixed $additionalColumn
      *
      * @return \Illuminate\Http\Response
      */
-    public function dataTable($data, $pictureConfig=[], $additionalColumn=[]){
-        $columns = ['action'];
-        $datatable = \DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('action', function($row){
+    public function dataTable($data, $withAction=false, $pictureConfig=[], $additionalColumn=[]){
+        $columns = [];
 
+        $datatable = \DataTables::of($data)
+            ->addIndexColumn();
+        
+        if($withAction){
+            $datatable = $datatable->addColumn('action', function($row){
                     $btn = '<a href="#" onClick="showEditModal('.$row->id.')" class="edit btn btn-primary btn-sm">'.__('table.label_view').'</a>';
                     $btn .= '<a href="#" onClick="deleteData('.$row->id.')" class="edit btn btn-danger btn-sm">'.__('table.label_delete').'</a>';
 
                     return $btn;
             });
+            $columns = ['action'];
+        }
 
         if(count($pictureConfig) > 0){
             if(array_key_exists('columnName',$pictureConfig) && array_key_exists('photoField',$pictureConfig)){
